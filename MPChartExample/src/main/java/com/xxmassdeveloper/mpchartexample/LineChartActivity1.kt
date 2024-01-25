@@ -163,6 +163,11 @@ class LineChartActivity1 : DemoBase(), OnSeekBarChangeListener, OnChartValueSele
                 }
             }
 
+            R.id.actionTogglePan -> {
+                binding.chart1.isPanEnabled = !binding.chart1.isPanEnabled
+                binding.chart1.invalidate()
+            }
+
             R.id.actionToggleFilled -> {
                 val sets = binding.chart1.data.dataSets
                 for (iSet in sets) {

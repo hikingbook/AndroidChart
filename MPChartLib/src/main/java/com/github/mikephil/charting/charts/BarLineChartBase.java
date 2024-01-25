@@ -81,6 +81,8 @@ public abstract class BarLineChartBase<T extends BarLineScatterCandleBubbleData<
     private boolean mDragXEnabled = true;
     private boolean mDragYEnabled = true;
 
+    private boolean mPanEnabled = true;
+
     private boolean mScaleXEnabled = true;
     private boolean mScaleYEnabled = true;
 
@@ -1145,6 +1147,24 @@ public abstract class BarLineChartBase<T extends BarLineScatterCandleBubbleData<
      */
     public boolean isDragYEnabled() {
         return mDragYEnabled;
+    }
+
+    /**
+     * Returns true if panning is enabled for the chart, false if not.
+     *
+     * @return
+     */
+    public boolean isPanEnabled() {
+        return mPanEnabled;
+    }
+
+    /**
+     * Set this to true to enable panning the chart
+     *
+     * @param enabled
+     */
+    public void setPanEnabled(boolean enabled) {
+        this.mPanEnabled = enabled;
     }
 
     /**

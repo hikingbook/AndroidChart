@@ -46,6 +46,10 @@
         android:title="@string/actionToggleHighlight">
     </item>
     <item
+        android:id="@+id/actionTogglePan"
+        android:title="@string/actionTogglePan">
+    </item>
+    <item
         android:id="@+id/animateX"
         android:title="@string/animateX">
     </item>

@@ -18,6 +18,7 @@
 
     <string name="actionToggleIcons">Toggle Icons</string>
     <string name="actionToggleHighlight">Toggle Highlight</string>
+    <string name="actionTogglePan">Toggle Pan</string>
     <string name="actionTogglePinch">Toggle PinchZoom</string>
     <string name="actionToggleAutoScale">Toggle Auto Scale</string>
 
