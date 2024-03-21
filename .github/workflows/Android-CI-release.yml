@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4.1.1
+        uses: actions/checkout@v4.1.2
         with:
           fetch-depth: 0
       - name: Install JDK
@@ -52,7 +52,7 @@ jobs:
           CRYPT_PASS: ${{ secrets.CRYPT_PASS }}
 
       - name: Create Release
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{steps.tagger.outputs.tag}}
           name: ${{steps.tagger.outputs.tag}}
