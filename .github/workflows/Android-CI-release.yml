@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4.1.2
+        uses: actions/checkout@v4.1.4
         with:
           fetch-depth: 0
       - name: Install JDK
@@ -27,21 +27,21 @@ jobs:
           abbrev: false
           commit-ish: HEAD
       - name: Install Android SDK
-        uses: malinskiy/action-android/install-sdk@release/0.1.4
+        uses: hannesa2/action-android/install-sdk@0.1.16.7
       - name: Build project
         run: ./gradlew assembleRelease
         env:
           VERSION: ${{ github.ref }}
 
-      - name: Publish to github package
-        run: |
-          signing/decrypt.sh
-          cat signing/gradle_secure.properties >> gradle.properties
-          ./gradlew publish
-        env:
-          CRYPT_PASS: ${{ secrets.CRYPT_PASS }}
-          GITHUBACTOR: ${{ secrets.GITHUBACTOR }}
-          GITHUBTOKEN: ${{ secrets.GITHUBTOKEN }}
+#      - name: Publish to github package
+#        run: |
+#          signing/decrypt.sh
+#          cat signing/gradle_secure.properties >> gradle.properties
+#          ./gradlew publish
+#        env:
+#          CRYPT_PASS: ${{ secrets.CRYPT_PASS }}
+#          GITHUBACTOR: ${{ secrets.GITHUBACTOR }}
+#          GITHUBTOKEN: ${{ secrets.GITHUBTOKEN }}
 
       - name: Publish mavenCentral (stage)
         run: |

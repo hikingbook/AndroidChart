@@ -25,7 +25,7 @@ class MainActivity : AppCompatActivity(), OnItemClickListener {
         // initialize the utilities
         Utils.init(this)
         val adapter = MyAdapter(this, menuItems)
-        val lv = findViewById<ListView>(R.id.listView1)
+        val lv = findViewById<ListView>(R.id.listViewMain)
         lv.adapter = adapter
         lv.onItemClickListener = this
     }
@@ -91,6 +91,7 @@ class MainActivity : AppCompatActivity(), OnItemClickListener {
 
             add(19, ContentItem("Pie Charts"))
             add(20, ContentItem("Basic", "Simple pie chart.", PieChartActivity::class.java))
+            add(20, ContentItem("Basic", "Rounded pie chart.", PieChartRoundedActivity::class.java))
             add(21, ContentItem("Value Lines", "Stylish lines drawn outward from slices.", PiePolylineChartActivity::class.java))
             add(22, ContentItem("Half Pie", "180° (half) pie chart.", HalfPieChartActivity::class.java))
             add(23, ContentItem("Specific positions", "This demonstrates how to pass a list of specific positions for lines and labels on x and y axis", SpecificPositionsLineChartActivity::class.java))
