@@ -3,6 +3,9 @@
 
 :zap: A powerful & easy to use chart library for Android :zap:
 
+### Project status: maintenance mode
+Issues are ignored, but pull requests are not. If you need to get something done, submit a PR!
+
 ### Gradle Setup with jitpack.io
 
 ```gradle
@@ -96,7 +99,7 @@ dependencies {
 
 <h1 id="license">License :page_facing_up:</h1>
 
-Copyright 2021 Contributors
+Copyright 2025 Contributors
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
