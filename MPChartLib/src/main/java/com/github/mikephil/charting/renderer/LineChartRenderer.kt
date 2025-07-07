@@ -79,8 +79,7 @@ class LineChartRenderer(
         for (set in lineData.dataSets) {
             if (set.isVisible) drawDataSet(c, set)
         }
-
-        c.drawBitmap(drawBitmapLocal, 0f, 0f, paintRender)
+        c.drawBitmap(drawBitmapLocal, 0f, 0f, null)
     }
 
     protected fun drawDataSet(c: Canvas, dataSet: ILineDataSet) {
