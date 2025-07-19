@@ -8,15 +8,12 @@ import com.github.mikephil.charting.interfaces.datasets.IBarLineScatterCandleBub
 import com.github.mikephil.charting.interfaces.datasets.IDataSet;
 import com.github.mikephil.charting.utils.ViewPortHandler;
 
-/**
- * Created by Philipp Jahoda on 09/06/16.
- */
 public abstract class BarLineScatterCandleBubbleRenderer extends DataRenderer {
 
     /**
      * buffer for storing the current minimum and maximum visible x
      */
-    protected XBounds mXBounds = new XBounds();
+    protected XBounds xBounds = new XBounds();
 
     public BarLineScatterCandleBubbleRenderer(ChartAnimator animator, ViewPortHandler viewPortHandler) {
         super(animator, viewPortHandler);
@@ -46,7 +43,7 @@ public abstract class BarLineScatterCandleBubbleRenderer extends DataRenderer {
 
         float entryIndex = set.getEntryIndex(e);
 
-        if (e == null || entryIndex >= set.getEntryCount() * mAnimator.getPhaseX()) {
+        if (e == null || entryIndex >= set.getEntryCount() * animator.getPhaseX()) {
             return false;
         } else {
             return true;
@@ -80,7 +77,7 @@ public abstract class BarLineScatterCandleBubbleRenderer extends DataRenderer {
          * @param dataSet
          */
         public void set(BarLineScatterCandleBubbleDataProvider chart, IBarLineScatterCandleBubbleDataSet dataSet) {
-            float phaseX = Math.max(0.f, Math.min(1.f, mAnimator.getPhaseX()));
+            float phaseX = Math.max(0.f, Math.min(1.f, animator.getPhaseX()));
 
             float low = chart.getLowestVisibleX();
             float high = chart.getHighestVisibleX();
