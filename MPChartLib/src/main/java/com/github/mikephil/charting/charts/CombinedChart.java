@@ -236,8 +236,9 @@ public class CombinedChart extends BarLineChartBase<CombinedData> implements Com
 			return;
 		}
 
-		for (Highlight highlight : mIndicesToHighlight) {
+		for (int i = 0; i < mIndicesToHighlight.length; i++) {
 
+			Highlight highlight = mIndicesToHighlight[i];
 			IDataSet set = mData.getDataSetByHighlight(highlight);
 
 			Entry e = mData.getEntryForHighlight(highlight);

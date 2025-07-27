@@ -55,8 +55,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import androidx.annotation.NonNull;
-
 /**
  * Baseclass of all Chart-Views.
  *
@@ -173,11 +171,6 @@ public abstract class Chart<T extends ChartData<? extends IDataSet<? extends Ent
 	 * Extra offsets to be appended to the viewport
 	 */
 	private float mExtraTopOffset = 0.f, mExtraRightOffset = 0.f, mExtraBottomOffset = 0.f, mExtraLeftOffset = 0.f;
-
-	/**
-     * Tag for logging accessibility related content
-     */
-    private String TAG = "abilityTag";
 
     /**
      * Additional data on top of dynamically generated description. This can be set by the user.
@@ -754,7 +747,7 @@ public abstract class Chart<T extends ChartData<? extends IDataSet<? extends Ent
 	/**
 	 * the view that represents the marker
 	 */
-	protected List<IMarker> mMarkers;
+	protected List<IMarker> mMarkers = new ArrayList<>();
 
 	/**
 	 * draws all MarkerViews on the highlighted positions
@@ -766,7 +759,9 @@ public abstract class Chart<T extends ChartData<? extends IDataSet<? extends Ent
 			return;
 		}
 
-		for (Highlight highlight : mIndicesToHighlight) {
+		for (int i = 0; i < mIndicesToHighlight.length; i++) {
+
+			Highlight highlight = mIndicesToHighlight[i];
 
 			// When changing data sets and calling animation functions, sometimes an erroneous highlight is generated
 			// on the dataset that is removed. Null check to prevent crash
@@ -778,7 +773,7 @@ public abstract class Chart<T extends ChartData<? extends IDataSet<? extends Ent
 			Entry e = mData.getEntryForHighlight(highlight);
 
 			// make sure entry not null before using it
-			if (e == null || set == null) {
+			if (e == null) {
 				continue;
 			}
 
@@ -1153,7 +1148,7 @@ public abstract class Chart<T extends ChartData<? extends IDataSet<? extends Ent
      * sets the marker that is displayed when a value is clicked on the chart
      */
 	public void setMarker(IMarker marker) {
-		setMarkers(Collections.unmodifiableList(Collections.singletonList(marker)));
+		setMarkers(Collections.singletonList(marker));
     }
     /**
 	 * returns the marker that is set as a marker view for the chart
@@ -1703,7 +1698,7 @@ public abstract class Chart<T extends ChartData<? extends IDataSet<? extends Ent
     public boolean dispatchPopulateAccessibilityEvent(AccessibilityEvent event) {
 
         boolean completed = super.dispatchPopulateAccessibilityEvent(event);
-        Log.d(TAG, "Dispatch called for Chart <View> and completed as " + completed);
+        Log.d(LOG_TAG, "Dispatch called for Chart <View> and completed as " + completed);
 
         event.getText().add(getAccessibilityDescription());
 
