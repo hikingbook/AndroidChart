@@ -62,7 +62,7 @@ class LineChartActivity : DemoBase(), OnSeekBarChangeListener, OnChartValueSelec
 
         // Set the marker to the chart
         mv.chartView = binding.chart1
-        binding.chart1.marker = mv
+        binding.chart1.marker.add(mv)
 
         // enable scaling and dragging
         binding.chart1.isDragEnabled = true

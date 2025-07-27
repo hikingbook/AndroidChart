@@ -52,8 +52,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
-
-import androidx.annotation.NonNull;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Baseclass of all Chart-Views.
@@ -171,11 +171,6 @@ public abstract class Chart<T extends ChartData<? extends IDataSet<? extends Ent
 	 * Extra offsets to be appended to the viewport
 	 */
 	private float mExtraTopOffset = 0.f, mExtraRightOffset = 0.f, mExtraBottomOffset = 0.f, mExtraLeftOffset = 0.f;
-
-	/**
-     * Tag for logging accessibility related content
-     */
-    private String TAG = "abilityTag";
 
     /**
      * Additional data on top of dynamically generated description. This can be set by the user.
@@ -543,12 +538,17 @@ public abstract class Chart<T extends ChartData<? extends IDataSet<? extends Ent
 		invalidate();
 	}
 
-	/**
-	 * Highlights any y-value at the given x-value in the given DataSet.
-	 * Provide -1 as the dataSetIndex to undo all highlighting.
-	 * This method will call the listener.
-	 *
-	 * @param x            The x-value to highlight
+	public void highlightValues(List<Highlight> highs, List<IMarker> markers) {
+        if (highs.size() != markers.size()) throw new IllegalArgumentException("Markers and highs must be mutually corresponding. High size = " + highs.size() + " Markers size = " + markers.size());
+        setMarkers(markers);
+        highlightValues(highs.toArray(new Highlight[0]));
+    }
+
+    /**
+     * Highlights any y-value at the given x-value in the given DataSet.
+     * Provide -1 as the dataSetIndex to undo all highlighting.
+     * This method will call the listener.
+     ** @param x            The x-value to highlight
 	 * @param dataSetIndex The dataset index to search in
 	 * @param dataIndex    The data index to search in (only used in CombinedChartView currently)
 	 */
@@ -747,7 +747,7 @@ public abstract class Chart<T extends ChartData<? extends IDataSet<? extends Ent
 	/**
 	 * the view that represents the marker
 	 */
-	protected IMarker mMarker;
+	protected List<IMarker> mMarkers = new ArrayList<>();
 
 	/**
 	 * draws all MarkerViews on the highlighted positions
@@ -755,11 +755,13 @@ public abstract class Chart<T extends ChartData<? extends IDataSet<? extends Ent
 	protected void drawMarkers(Canvas canvas) {
 
 		// if there is no marker view or drawing marker is disabled
-		if (mMarker == null || !isDrawMarkersEnabled() || !valuesToHighlight()) {
+		if (mMarkers == null || !isDrawMarkersEnabled() || !valuesToHighlight()) {
 			return;
 		}
 
-		for (Highlight highlight : mIndicesToHighlight) {
+		for (int i = 0; i < mIndicesToHighlight.length; i++) {
+
+			Highlight highlight = mIndicesToHighlight[i];
 
 			// When changing data sets and calling animation functions, sometimes an erroneous highlight is generated
 			// on the dataset that is removed. Null check to prevent crash
@@ -771,7 +773,7 @@ public abstract class Chart<T extends ChartData<? extends IDataSet<? extends Ent
 			Entry e = mData.getEntryForHighlight(highlight);
 
 			// make sure entry not null before using it
-			if (e == null || set == null) {
+			if (e == null) {
 				continue;
 			}
 
@@ -789,10 +791,12 @@ public abstract class Chart<T extends ChartData<? extends IDataSet<? extends Ent
 			}
 
 			// callbacks to update the content
-			mMarker.refreshContent(e, highlight);
+			int markerIndex = i % mMarkers.size();
+            IMarker markerItem = mMarkers.get(markerIndex);
+            markerItem.refreshContent(e, highlight);
 
 			// draw the marker
-			mMarker.draw(canvas, pos[0], pos[1]);
+			markerItem.draw(canvas, pos[0], pos[1]);
 		}
 	}
 
@@ -1136,18 +1140,22 @@ public abstract class Chart<T extends ChartData<? extends IDataSet<? extends Ent
 		this.mTouchEnabled = enabled;
 	}
 
-	/**
-	 * sets the marker that is displayed when a value is clicked on the chart
-	 */
-	public void setMarker(IMarker marker) {
-		mMarker = marker;
-	}
+	public void setMarkers(List<IMarker> marker) {
+        mMarkers = marker;
+    }
 
-	/**
+    /**
+     * sets the marker that is displayed when a value is clicked on the chart
+     */
+	public void setMarker(IMarker marker) {
+		setMarkers(Collections.singletonList(marker));
+    }
+    /**
 	 * returns the marker that is set as a marker view for the chart
+
 	 */
-	public IMarker getMarker() {
-		return mMarker;
+	public List<IMarker> getMarker() {
+		return mMarkers;
 	}
 
 	@Deprecated
@@ -1156,7 +1164,7 @@ public abstract class Chart<T extends ChartData<? extends IDataSet<? extends Ent
 	}
 
 	@Deprecated
-	public IMarker getMarkerView() {
+	public List<IMarker> getMarkerView() {
 		return getMarker();
 	}
 
@@ -1690,7 +1698,7 @@ public abstract class Chart<T extends ChartData<? extends IDataSet<? extends Ent
     public boolean dispatchPopulateAccessibilityEvent(AccessibilityEvent event) {
 
         boolean completed = super.dispatchPopulateAccessibilityEvent(event);
-        Log.d(TAG, "Dispatch called for Chart <View> and completed as " + completed);
+        Log.d(LOG_TAG, "Dispatch called for Chart <View> and completed as " + completed);
 
         event.getText().add(getAccessibilityDescription());
 
