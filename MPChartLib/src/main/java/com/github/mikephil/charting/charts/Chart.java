@@ -791,12 +791,14 @@ public abstract class Chart<T extends ChartData<? extends IDataSet<? extends Ent
 			}
 
 			// callbacks to update the content
-			int markerIndex = i % mMarkers.size();
-            IMarker markerItem = mMarkers.get(markerIndex);
-            markerItem.refreshContent(e, highlight);
+			if (!mMarkers.isEmpty()) {
+				int markerIndex = i % mMarkers.size();
+				IMarker markerItem = mMarkers.get(markerIndex);
+				markerItem.refreshContent(e, highlight);
 
-			// draw the marker
-			markerItem.draw(canvas, pos[0], pos[1]);
+				// draw the marker
+				markerItem.draw(canvas, pos[0], pos[1]);
+			}
 		}
 	}
 
