@@ -81,7 +81,7 @@ class SpecificPositionsLineChartActivity : DemoBase(), OnSeekBarChangeListener, 
         // to use for it
         val mv = MyMarkerView(this, R.layout.custom_marker_view)
         mv.chartView = mChart // For bounds control
-        mChart!!.marker = mv // Set the marker to the chart
+        mChart!!.marker.add(mv) // Set the marker to the chart
 
         // x-axis limit line
         val llXAxis = LimitLine(10f, "Index 10")
